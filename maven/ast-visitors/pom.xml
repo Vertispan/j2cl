@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.vertispan.j2cl</groupId>
+    <artifactId>j2cl-parent</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>ast-visitors</artifactId>
+  <packaging>pom</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>../../bazel-bin/transpiler/java/com/google/j2cl/ast/visitors/libvisitors.jar</file>
+                  <type>jar</type>
+                </artifact>
+                <artifact>
+                  <file>../../bazel-bin/transpiler/java/com/google/j2cl/ast/visitors/libvisitors-src.jar</file>
+                  <type>jar</type>
+                  <classifier>sources</classifier>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>ast</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.vertispan.j2cl</groupId>
+  <artifactId>j2cl-parent</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <modules>
+    <module>common</module>
+    <module>ast</module>
+    <module>ast-visitors</module>
+    <module>frontend</module>
+    <module>generator</module>
+    <module>transpiler</module>
+
+    <module>gwt-incompatible-stripper</module>
+    <module>minifier</module>
+
+    <module>gwt-internal-annotations</module>
+    <module>jre</module>
+
+    <module>bootstrap</module>
+  </modules>
+
+  <distributionManagement>
+    <repository>
+      <id>vertispan-releases</id>
+      <name>Vertispan hosted artifacts-releases</name>
+      <url>https://repo.vertispan.com/j2cl</url>
+    </repository>
+    <snapshotRepository>
+      <id>vertispan-snapshots</id>
+      <name>Vertispan hosted artifacts-snapshots</name>
+      <url>https://repo.vertispan.com/j2cl</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.5.1</version>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+          </configuration>
+        </plugin>
+
+        <!-- https://maven.apache.org/enforcer/enforcer-rules/dependencyConvergence.html -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>1.4.1</version>
+          <executions>
+            <execution>
+              <id>enforce</id>
+              <configuration>
+                <rules>
+                  <dependencyConvergence/>
+                </rules>
+              </configuration>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>21.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.auto.value</groupId>
+        <artifactId>auto-value</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>3.0.1</version>
+        <!-- 3.0.2 is available -->
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.5</version>
+      </dependency>
+      <dependency>
+        <groupId>args4j</groupId>
+        <artifactId>args4j</artifactId>
+        <version>2.33</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jdt</groupId>
+        <artifactId>org.eclipse.jdt.core</artifactId>
+        <version>3.12.3</version>
+        <!-- newer than requested, seems to work -->
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.javascript</groupId>
+        <artifactId>closure-compiler-unshaded</artifactId>
+        <version>v20170409</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.google.jsinterop</groupId>
+            <artifactId>jsinterop-annotations</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.jsinterop</groupId>
+        <artifactId>jsinterop-annotations</artifactId>
+        <version>1.0.2</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
