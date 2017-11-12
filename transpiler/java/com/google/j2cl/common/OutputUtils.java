@@ -110,6 +110,7 @@ public class OutputUtils {
 
     // Ensures that we will not fail if the zip already exists.
     output.toFile().delete();
+    output.toFile().getParentFile().mkdirs();
 
     try {
       return FileSystems.newFileSystem(
