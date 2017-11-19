@@ -6,9 +6,7 @@
 # To use this, create primitives (requires patch to correctly emit java primtives!):
 #   $ bazel build //jre/java/javaemul/internal/vmbootstrap/primitives:primitives
 
-# Update these env vars as needed
-J2CL_REPO=/Users/colin/workspace/j2cl
-CLOSURE_LIBRARY_REPO=/Users/colin/workspace/closure-library
+source config.sh
 
 # Remove the old if it exists, track where we are creating it so we get nice paths inside and can cd around
 rm bootstrap.js.zip

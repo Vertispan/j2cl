@@ -8,10 +8,7 @@ set -e
 # Then the full jre:
 #   $ bazel build //jre/java:jre
 
-# Update these env vars as needed
-J2CL_REPO=/Users/colin/workspace/j2cl
-CLOSURE_LIBRARY_REPO=/Users/colin/workspace/closure-library
-CLOSURE_COMPILER_JAR=/Users/colin/workspace/closure-compiler/target/closure-compiler-1.0-SNAPSHOT.jar
+source config.sh
 
 # Finally, skip down to the end of the file to customize what dependencies you build, compile.
 
