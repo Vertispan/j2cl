@@ -28,8 +28,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -56,26 +58,36 @@ import static com.google.common.io.Files.createTempDir;
  *   o Not at all convinced my javac wiring is correct
  *   o Polling for changes
  */
+//NOTE: It appears a tmp directory for classes is not created on Fedora 27
 public class DevMode {
+
     public static class Options {
+
         @Option(name = "-src", usage = "specify one or more java source directories", required = true)
         List<String> sourceDir = new ArrayList<>();
         @Option(name = "-classpath", usage = "specify java classpath", required = true)
         String bytecodeClasspath;
 
-        @Option(name = "-jsClasspath", usage = "specify js archive classpath that won't be transpiled from sources or classpath. If nothing else, should include bootstrap.js.zip", required = true)
+        @Option(name = "-jsClasspath",
+                usage = "specify js archive classpath that won't be transpiled from sources or classpath. If nothing else, should include bootstrap.js.zip",
+                required = true)
         String j2clClasspath;
 
-        @Option(name = "-out", usage = "indicates where to write generated JS sources, sourcemaps, etc. Should be a directory specific to gwt, anything may be overwritten there.", required = true)
+        @Option(name = "-out",
+                usage = "indicates where to write generated JS sources, sourcemaps, etc. Should be a directory specific to gwt, anything may be overwritten there.",
+                required = true)
         String outputJsPathDir;
 
-        @Option(name = "-classes", usage = "provide a directory to put compiled bytecode in. if not specified, a tmp dir will be used", required = false)
+        @Option(name = "-classes",
+                usage = "provide a directory to put compiled bytecode in. if not specified, a tmp dir will be used",
+                required = false)
         String classesDir;
 
         @Option(name = "-entrypoint", usage = "The entrypoint class", required = true)
         List<String> entrypoint = new ArrayList<>();
 
-        @Option(name = "-jsZipCache", usage = "directory to cache generated jszips in. Should be cleared when j2cl version changes")
+        @Option(name = "-jsZipCache",
+                usage = "directory to cache generated jszips in. Should be cleared when j2cl version changes")
         String jsZipCacheDir;
 
         //lifted straight from closure for consistency
@@ -94,7 +106,8 @@ public class DevMode {
     private static PathMatcher nativeJsMatcher = FileSystems.getDefault().getPathMatcher("glob:**/*.native.js");
     private static PathMatcher jsMatcher = FileSystems.getDefault().getPathMatcher("glob:**/*.js");
 
-    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException, NoSuchAlgorithmException {
+    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException,
+            NoSuchAlgorithmException {
 
         Options options = new Options();
         CmdLineParser parser = new CmdLineParser(options);
@@ -109,13 +122,13 @@ public class DevMode {
         String intermediateJsPath = createDir(options.outputJsPathDir + "/sources").getPath();
         System.out.println("intermediate js from j2cl path " + intermediateJsPath);
         File generatedClassesPath = createTempDir();//TODO allow this to be configurable
-//        System.out.println("generated classes path " + generatedClassesPath);
+        //        System.out.println("generated classes path " + generatedClassesPath);
         String sourcesNativeZipPath = File.createTempFile("proj-native", ".zip").getAbsolutePath();
 
         options.bytecodeClasspath += ":" + options.classesDir;
         List<File> classpath = new ArrayList<>();
         for (String path : options.bytecodeClasspath.split(File.pathSeparator)) {
-//            System.out.println(path);
+            //            System.out.println(path);
             classpath.add(new File(path));
         }
 
@@ -139,14 +152,19 @@ public class DevMode {
         String intermediateJsOutput = options.outputJsPathDir + "/app.js";
         CompilationLevel compilationLevel = CompilationLevel.BUNDLE;
         List<String> baseClosureArgs = new ArrayList<>(Arrays.asList(
-                "--compilation_level", compilationLevel.name(),// fastest way to build, just smush everything together
-                "--js_output_file", intermediateJsOutput,// temp file to write to before we insert the missing line at the top
+                "--compilation_level", compilationLevel.name(), // fastest way to build, just smush everything together
+                "--js_output_file", intermediateJsOutput, // temp file to write to before we insert the missing line at the top
                 "--dependency_mode", DependencyMode.STRICT.name()// force STRICT mode so that the compiler at least orders the inputs
         ));
         if (compilationLevel == CompilationLevel.BUNDLE) {
             // support BUNDLE mode, with no remote fetching for dependencies)
             baseClosureArgs.add("--define");
-            baseClosureArgs.add( "goog.ENABLE_DEBUG_LOADER=false");
+            baseClosureArgs.add("goog.ENABLE_DEBUG_LOADER=false");
+        }
+
+        ResourceListener resourceListener = new ResourceListener();
+        for (String srcDir : options.sourceDir) {
+            resourceListener.registerChangeListener(Paths.get(srcDir));
         }
 
         for (String define : options.define) {
@@ -163,7 +181,8 @@ public class DevMode {
         PersistentInputStore persistentInputStore = new PersistentInputStore();
 
         for (String zipPath : options.j2clClasspath.split(File.pathSeparator)) {
-            Preconditions.checkArgument(new File(zipPath).exists() && new File(zipPath).isFile(), "jszip doesn't exist! %s", zipPath);
+            Preconditions.checkArgument(new File(zipPath).exists() && new File(zipPath).isFile(),
+                    "jszip doesn't exist! %s", zipPath);
 
             baseClosureArgs.add("--jszip");
             baseClosureArgs.add(zipPath);
@@ -175,9 +194,9 @@ public class DevMode {
         baseClosureArgs.add(intermediateJsPath + "/**/*.js");//precludes default package
 
         //pre-transpile all dependency sources to our cache dir, add those cached items to closure args
-        List<String> transpiledDependencies = handleDependencies(options, classpath, baseJ2clArgs, persistentInputStore);
+        List<String> transpiledDependencies = handleDependencies(options, classpath, baseJ2clArgs,
+                persistentInputStore);
         baseClosureArgs.addAll(transpiledDependencies);
-
 
         FileTime lastModified = FileTime.fromMillis(0);
         FileTime lastSuccess = FileTime.fromMillis(0);
@@ -187,53 +206,76 @@ public class DevMode {
             // block until changes instead? easy to replace with filewatcher, just watch out for java9/osx issues...
 
             List<String> modifiedJavaFiles = new ArrayList<>();
-            FileTime newerThan = lastModified;
             long pollStarted = System.currentTimeMillis();
 
-            //this isn't quite right - should check for _at least one_ newer than lastModified, and if so, recompile all
-            //newer than lastSuccess
-            //also, should look for .native.js too, but not collect them
-            for (String dir : options.sourceDir) {
-                Files.find(Paths.get(dir),
-                        Integer.MAX_VALUE,
-                        (filePath, fileAttr) -> {
-                            return !fileAttr.isDirectory()
-                                    && fileAttr.lastModifiedTime().compareTo(newerThan) > 0
-                                    && javaMatcher.matches(filePath);
-                        })
-                        .forEach(file -> modifiedJavaFiles.add(file.toString()));
-            }
-            long pollTime = System.currentTimeMillis() - pollStarted;
-            // don't replace this until the loop finishes successfully, so we know the last time we started a successful compile
-            FileTime nextModifiedIfSuccessful = FileTime.fromMillis(System.currentTimeMillis());
-
-            if (modifiedJavaFiles.isEmpty()) {
-                Thread.sleep(100);
+            resourceListener.resetEvents();
+            try {
+                resourceListener.blockAndCollectEvents(false);
+            } catch (Exception e) {
                 continue;
             }
+            final FileTime LAST_MODIFIED = lastModified;
+            if (!(resourceListener.getModifiedFiles().stream()
+                    .anyMatch((p) -> {
+                        try {
+                            return (javaMatcher.matches(p) || nativeJsMatcher.matches(p)) &&
+                                    Files.getLastModifiedTime(p).compareTo(LAST_MODIFIED) > 0;
+                        } catch (Exception e2) {
+                            return false;
+                        }
+                    }) ||
+                    resourceListener.getCreatedFiles().stream()
+                            .anyMatch((p) -> {
+                                try {
+                                    return (javaMatcher.matches(p) || nativeJsMatcher.matches(p)) &&
+                                            Files.getLastModifiedTime(p).compareTo(LAST_MODIFIED) > 0;
+                                } catch (Exception e2) {
+                                    return false;
+                                }
+                            }))) {
+                continue;
+            }
+            HashSet<Path> allModifiedFiles = new HashSet<Path>();
+            allModifiedFiles.addAll(resourceListener.getModifiedFiles());
+            allModifiedFiles.addAll(resourceListener.getCreatedFiles());
+
+            modifiedJavaFiles.addAll(allModifiedFiles.stream()
+                    .filter((p) -> javaMatcher.matches(p))
+                    .map((p) -> p.toFile().getAbsolutePath())
+                    .collect(Collectors.toSet()));
+
+            FileTime newerThan = lastModified;
+
+            long pollTime = System.currentTimeMillis() - pollStarted;
+
+            // don't replace this until the loop finishes successfully, so we know the last time we started a successful compile
+            FileTime nextModifiedIfSuccessful = FileTime.fromMillis(System.currentTimeMillis());
 
             //collect native files in zip, but only if that file is also present in the changed .java sources
             boolean anyNativeJs = false;
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(sourcesNativeZipPath))) {
                 for (String dir : options.sourceDir) {
-                    anyNativeJs |= Files.find(Paths.get(dir), Integer.MAX_VALUE, (path, attrs) -> shouldZip(path, modifiedJavaFiles)).reduce(false, (ignore, file) -> {
-                        try {
-                            zipOutputStream.putNextEntry(new ZipEntry(Paths.get(dir).toAbsolutePath().relativize(file.toAbsolutePath()).toString()));
-                            zipOutputStream.write(Files.readAllBytes(file));
-                            zipOutputStream.closeEntry();
-                            return true;
-                        } catch (IOException e) {
-                            throw new UncheckedIOException(e);
-                        }
-                    }, (a, b) -> a || b);
+                    anyNativeJs |= Files.find(Paths.get(dir), Integer.MAX_VALUE, (path, attrs) -> shouldZip(path,
+                            modifiedJavaFiles)).reduce(false, (ignore, file) -> {
+                                try {
+                                    zipOutputStream.putNextEntry(new ZipEntry(Paths.get(dir).toAbsolutePath()
+                                            .relativize(file.toAbsolutePath()).toString()));
+                                    zipOutputStream.write(Files.readAllBytes(file));
+                                    zipOutputStream.closeEntry();
+                                    return true;
+                                } catch (IOException e) {
+                                    throw new UncheckedIOException(e);
+                                }
+                            }, (a, b) -> a || b);
                 }
             }
 
             System.out.println(modifiedJavaFiles.size() + " updated java files");
-//            modifiedJavaFiles.forEach(System.out::println);
+            //            modifiedJavaFiles.forEach(System.out::println);
 
             // compile java files with javac into classesDir
-            Iterable<? extends JavaFileObject> modifiedFileObjects = fileManager.getJavaFileObjectsFromStrings(modifiedJavaFiles);
+            Iterable<? extends JavaFileObject> modifiedFileObjects = fileManager.getJavaFileObjectsFromStrings(
+                    modifiedJavaFiles);
             //TODO pass-non null for "classes" to properly kick apt?
             //TODO consider a different classpath for this tasks, so as to not interfere with everything else?
 
@@ -250,11 +292,10 @@ public class DevMode {
 
             Files.find(Paths.get(generatedClassesPath.getAbsolutePath()),
                     Integer.MAX_VALUE,
-                    (filePath, fileAttr) ->
-                            !fileAttr.isDirectory()
+                    (filePath, fileAttr) -> !fileAttr.isDirectory()
                             && javaMatcher.matches(filePath)
-                            /*TODO check modified?*/
-                    ).forEach(file -> modifiedJavaFiles.add(file.toString()));
+            /*TODO check modified?*/
+            ).forEach(file -> modifiedJavaFiles.add(file.toString()));
 
             // run preprocessor on changed files
             File processed = File.createTempFile("preprocessed", ".srcjar");
@@ -271,7 +312,7 @@ public class DevMode {
 
             long j2clStarted = System.currentTimeMillis();
             Result transpileResult = transpile(j2clArgs);
-//            System.out.println(j2clArgs);
+            //            System.out.println(j2clArgs);
 
             processed.delete();
 
@@ -288,7 +329,8 @@ public class DevMode {
             }
             long jscompTime = System.currentTimeMillis() - jscompStarted;
 
-            System.out.println("Recompile of " + modifiedJavaFiles.size() + " source classes finished in " + (System.currentTimeMillis() - nextModifiedIfSuccessful.to(TimeUnit.MILLISECONDS)) + "ms");
+            System.out.println("Recompile of " + modifiedJavaFiles.size() + " source classes finished in " + (System
+                    .currentTimeMillis() - nextModifiedIfSuccessful.to(TimeUnit.MILLISECONDS)) + "ms");
             System.out.println("poll: " + pollTime + "millis");
             System.out.println("javac: " + javacTime + "millis");
             System.out.println("j2cl: " + j2clTime + "millis");
@@ -297,7 +339,8 @@ public class DevMode {
         }
     }
 
-    private static List<String> handleDependencies(Options options, List<File> classpath, List<String> baseJ2clArgs, PersistentInputStore persistentInputStore) throws IOException, InterruptedException, ExecutionException {
+    private static List<String> handleDependencies(Options options, List<File> classpath, List<String> baseJ2clArgs,
+            PersistentInputStore persistentInputStore) throws IOException, InterruptedException, ExecutionException {
         List<String> additionalClosureArgs = new ArrayList<>();
         for (File file : classpath) {
             //TODO maybe skip certain files that have already been transpiled
@@ -320,7 +363,8 @@ public class DevMode {
             // run preprocessor
             File processed = File.createTempFile("preprocessed", ".srcjar");
             try (FileSystem out = FrontendUtils.initZipOutput(processed.getAbsolutePath(), new Problems())) {
-                ImmutableList<String> allSources = FrontendUtils.getAllSources(Collections.singletonList(file.getAbsolutePath()), new Problems());
+                ImmutableList<String> allSources = FrontendUtils.getAllSources(Collections.singletonList(file
+                        .getAbsolutePath()), new Problems());
                 if (allSources.isEmpty()) {
                     System.out.println("no sources in file " + file);
                     continue;
@@ -329,7 +373,8 @@ public class DevMode {
             }
 
             List<String> pretranspile = new ArrayList<>(baseJ2clArgs);
-            pretranspile.addAll(Arrays.asList("-cp", options.bytecodeClasspath, "-d", jszipOut, processed.getAbsolutePath()));
+            pretranspile.addAll(Arrays.asList("-cp", options.bytecodeClasspath, "-d", jszipOut, processed
+                    .getAbsolutePath()));
             Result result = transpile(pretranspile);
 
             processed.delete();
@@ -360,11 +405,11 @@ public class DevMode {
 
     private static Result transpile(List<String> j2clArgs) throws InterruptedException, ExecutionException {
         //recompile java->js
-//            System.out.println(j2clArgs);
+        //            System.out.println(j2clArgs);
 
         // Sadly, can't do this, each run of the transpiler MUST be in its own thread, since it
         // can't seem to clean up its threadlocals.
-//            Result transpileResult = transpiler.transpile(j2clArgs.toArray(new String[0]));
+        //            Result transpileResult = transpiler.transpile(j2clArgs.toArray(new String[0]));
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Future<Result> futureResult = executorService.submit(() -> {
             J2clTranspiler transpiler = new J2clTranspiler();
@@ -396,10 +441,11 @@ public class DevMode {
         return modifiedJavaFiles.stream().anyMatch(javaPath -> javaPath.startsWith(nativeFilePath));
     }
 
-    private static boolean jscomp(List<String> baseClosureArgs, PersistentInputStore persistentInputStore, String updatedJsDirectories) throws IOException {
+    private static boolean jscomp(List<String> baseClosureArgs, PersistentInputStore persistentInputStore,
+            String updatedJsDirectories) throws IOException {
         // collect all js into one artifact (currently jscomp, but it would be wonderful to not pay quite so much for this...)
         List<String> jscompArgs = new ArrayList<>(baseClosureArgs);
-//        System.out.println(jscompArgs);
+        //        System.out.println(jscompArgs);
 
         // Build a new compiler for this run, but share the cached js ASTs
         Compiler jsCompiler = new Compiler(System.err);
@@ -413,10 +459,11 @@ public class DevMode {
 
         // for each file in the updated dir
         long timestamp = System.currentTimeMillis();
-        Files.find(Paths.get(updatedJsDirectories), Integer.MAX_VALUE, (path, attrs) -> jsMatcher.matches(path)).forEach((Path path) -> {
-            // add updated JS file to the input store with timestamp instead of digest for now
-            persistentInputStore.addInput(path.toString(), timestamp + "");
-        });
+        Files.find(Paths.get(updatedJsDirectories), Integer.MAX_VALUE, (path, attrs) -> jsMatcher.matches(path))
+                .forEach((Path path) -> {
+                    // add updated JS file to the input store with timestamp instead of digest for now
+                    persistentInputStore.addInput(path.toString(), timestamp + "");
+                });
         //TODO how do we handle deleted files? If they are truly deleted, nothing should reference them, and the module resolution should shake them out, at only the cost of a little memory?
 
         jscompRunner.run();
@@ -432,7 +479,9 @@ public class DevMode {
     }
 
     static class InProcessJsCompRunner extends CommandLineRunner {
+
         private final Compiler compiler;
+
         InProcessJsCompRunner(String[] args, Compiler compiler) {
             super(args);
             this.compiler = compiler;
