@@ -18,6 +18,7 @@
   </properties>
 
   <modules>
+    <module>external</module>
     <module>common</module>
     <module>ast</module>
     <module>ast-visitors</module>
@@ -112,10 +113,9 @@
       </dependency>
 
       <dependency>
-        <groupId>org.eclipse.jdt</groupId>
+        <groupId>com.vertispan.j2cl.external</groupId>
         <artifactId>org.eclipse.jdt.core</artifactId>
-        <version>3.12.3</version>
-        <!-- newer than requested, seems to work -->
+        <version>${project.version}</version>
       </dependency>
 
       <dependency>
