@@ -65,7 +65,7 @@
       <artifactId>jsinterop-annotations</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jdt</groupId>
+      <groupId>com.vertispan.j2cl.external</groupId>
       <artifactId>org.eclipse.jdt.core</artifactId>
     </dependency>
     <dependency>

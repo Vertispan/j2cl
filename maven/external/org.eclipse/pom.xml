@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.vertispan.j2cl.external</groupId>
+    <artifactId>external-dependencies</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>org.eclipse</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>org.eclipse.core.contenttype</module>
+    <module>org.eclipse.core.jobs</module>
+    <module>org.eclipse.core.resources</module>
+    <module>org.eclipse.core.runtime</module>
+    <module>org.eclipse.equinox.common</module>
+    <module>org.eclipse.equinox.preferences</module>
+    <module>org.eclipse.jdt.compiler.apt</module>
+    <module>org.eclipse.jdt.core</module>
+    <module>org.eclipse.osgi</module>
+    <module>org.eclipse.text</module>
+  </modules>
+</project>
