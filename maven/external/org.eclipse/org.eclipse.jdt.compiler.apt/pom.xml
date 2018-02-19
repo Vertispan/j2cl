@@ -27,7 +27,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../../../bazel-genfiles/external/org_eclipse_jdt_compiler_apt/jar/_ijar/jar/external/org_eclipse_jdt_compiler_apt/jar/org.eclipse.jdt.compiler.apt_1.3.60.v20171129-1553-ijar.jar</file>
+                  <file>../../../../bazel-j2cl/external/org_eclipse_jdt_compiler_apt/jar/org.eclipse.jdt.compiler.apt_1.3.60.v20171129-1553.jar</file>
                   <type>jar</type>
                 </artifact>
               </artifacts>

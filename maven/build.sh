@@ -13,3 +13,8 @@ bazel build //jre/java:*
 
 bazel build @org_gwtproject_gwt//user:libgwt-javaemul-internal-annotations.jar
 bazel build @org_gwtproject_gwt//user:libgwt-javaemul-internal-annotations-src.jar
+
+
+# This must be the last line, or else some other operation will apparently remove these
+# soft links that we rely on in the maven build
+bazel build //third_party:jdt-core

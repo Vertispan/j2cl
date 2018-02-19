@@ -27,7 +27,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../../../bazel-genfiles/external/org_eclipse_jdt_text/jar/_ijar/jar/external/org_eclipse_jdt_text/jar/org.eclipse.text_3.6.100.v20170203-0814-ijar.jar</file>
+                  <file>../../../../bazel-j2cl/external/org_eclipse_jdt_text/jar/org.eclipse.text_3.6.100.v20170203-0814.jar</file>
                   <type>jar</type>
                 </artifact>
               </artifacts>
