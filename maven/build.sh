@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 
 set -e
+BAZEL=${BAZEL:-bazel}
 
-bazel build //transpiler/java/com/google/j2cl/transpiler:*
+${BAZEL} build //transpiler/java/com/google/j2cl/transpiler:*
 
-bazel build //tools/java/com/google/j2cl/tools/gwtincompatible:*
-bazel build //tools/java/com/google/j2cl/tools/minifier:*
+${BAZEL} build //tools/java/com/google/j2cl/tools/gwtincompatible:*
+${BAZEL} build //tools/java/com/google/j2cl/tools/minifier:*
 
-bazel build //jre/java/javaemul/internal/vmbootstrap/primitives:primitives
+${BAZEL} build //jre/java/javaemul/internal/vmbootstrap/primitives:primitives
 
-bazel build //jre/java:*
+${BAZEL} build //jre/java:*
 
-bazel build @org_gwtproject_gwt//user:libgwt-javaemul-internal-annotations.jar
-bazel build @org_gwtproject_gwt//user:libgwt-javaemul-internal-annotations-src.jar
+${BAZEL} build @org_gwtproject_gwt//user:libgwt-javaemul-internal-annotations.jar
+${BAZEL} build @org_gwtproject_gwt//user:libgwt-javaemul-internal-annotations-src.jar
 
 
 # This must be the last line, or else some other operation will apparently remove these
 # soft links that we rely on in the maven build
-bazel build //third_party:jdt-core
+${BAZEL} build //third_party:jdt-core
