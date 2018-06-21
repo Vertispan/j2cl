@@ -36,4 +36,16 @@ java_library(
         "//third_party:jsr305_annotations",
         "//third_party:junit",
     ],
+    plugins = [":autoservice_plugin"],
+)
+
+
+java_plugin(
+    name = "autoservice_plugin",
+    processor_class = "com.google.auto.service.processor.AutoServiceProcessor",
+    deps = [
+        "//third_party:auto_service",
+        "//third_party:guava",
+        "//third_party:auto_common",
+    ],
 )
