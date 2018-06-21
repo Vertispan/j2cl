@@ -35,6 +35,9 @@
     <module>jre</module>
 
     <module>bootstrap</module>
+
+    <module>junit/processor</module>
+    <module>junit/emul</module>
   </modules>
 
   <distributionManagement>
@@ -95,7 +98,7 @@
       <dependency>
         <groupId>com.google.auto.value</groupId>
         <artifactId>auto-value</artifactId>
-        <version>1.4</version>
+        <version>1.5.3</version>
       </dependency>
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
@@ -143,7 +146,21 @@
         <artifactId>gson</artifactId>
         <version>2.7</version>
       </dependency>
-
+      <dependency>
+        <groupId>com.google.auto</groupId>
+        <artifactId>auto-common</artifactId>
+        <version>0.9</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
+        <version>1.0-rc2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.7</version>
+      </dependency>
       <dependency>
         <groupId>com.vertispan.j2cl.external</groupId>
         <artifactId>org.eclipse.jdt.core</artifactId>
