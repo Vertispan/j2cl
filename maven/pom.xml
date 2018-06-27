@@ -36,8 +36,9 @@
 
     <module>bootstrap</module>
 
-    <module>junit/processor</module>
     <module>junit/emul</module>
+    <module>junit/closure-test</module>
+    <module>junit/processor</module>
   </modules>
 
   <distributionManagement>
