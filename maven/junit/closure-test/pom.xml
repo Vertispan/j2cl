@@ -12,7 +12,8 @@
   <artifactId>closure-test</artifactId>
   <packaging>pom</packaging>
   <description>
-    Contains the requirements for a goog.testing.TestCase to run in closure, minus the contents of bootstrap.
+    Contains the requirements for a goog.testing.TestCase and testSuite to run in closure,
+    minus the contents of bootstrap.
   </description>
 
   <build>
