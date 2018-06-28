@@ -100,6 +100,7 @@
         <include>debug/console.js</include>
         <include>labs/testing/environment.js</include>
         <include>testing/testsuite.js</include>
+        <include>string/string.js</include>
       </includes>
       <outputDirectory>closure/goog</outputDirectory>
     </fileSet>
