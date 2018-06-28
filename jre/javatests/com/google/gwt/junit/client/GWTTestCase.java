@@ -46,4 +46,11 @@ public abstract class GWTTestCase extends TestCase {
   protected final void tearDown() throws Exception {
     gwtTearDown();
   }
+
+  protected final void delayTestFinish(int timeoutMillis) {
+
+  }
+
+  protected final void finishTest() {
+  }
 }
