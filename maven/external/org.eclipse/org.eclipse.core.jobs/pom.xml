@@ -27,7 +27,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../../../bazel-j2cl/external/org_eclipse_jdt_jobs/jar/org.eclipse.core.jobs_3.9.2.v20171030-1027.jar</file>
+                  <file>../../../../bazel-j2cl/external/org_eclipse_jdt_jobs/jar/downloaded.jar</file>
                   <type>jar</type>
                 </artifact>
               </artifacts>
