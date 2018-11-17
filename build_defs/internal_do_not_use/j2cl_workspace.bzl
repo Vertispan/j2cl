@@ -247,7 +247,7 @@ j2cl_library(
         actual = "@com_google_guava",
     )
 
-    # Required by protobuf_java_util
+    # Required by protobuf_java_util, also needed by generator
     native.bind(
         name = "gson",
         actual = "@com_google_code_gson",

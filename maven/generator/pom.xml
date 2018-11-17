@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
   </parent>
   <artifactId>generator</artifactId>
   <packaging>pom</packaging>
@@ -45,8 +45,8 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -63,12 +63,22 @@
 
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>ast</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
       <artifactId>common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>ast</artifactId>
+      <artifactId>frontend</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>libraryinfo</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
