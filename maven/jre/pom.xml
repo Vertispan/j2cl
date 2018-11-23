@@ -28,8 +28,13 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../bazel-bin/jre/java/jre.jar</file>
+                  <file>../../bazel-bin/jre/java/libjre.jar</file>
                   <type>jar</type>
+                </artifact>
+                <artifact>
+                  <file>../../bazel-bin/jre/java/libjre-src.jar</file>
+                  <type>jar</type>
+                  <classifier>sources</classifier>
                 </artifact>
                 <artifact>
                   <file>../../bazel-bin/jre/java/jre.js.zip</file>
