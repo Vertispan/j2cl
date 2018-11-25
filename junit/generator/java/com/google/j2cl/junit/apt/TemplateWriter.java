@@ -87,7 +87,7 @@ class TemplateWriter {
   private void writeResource(String qualifiedName, String content) throws IOException {
     try (Writer writer =
         filer
-            .createResource(StandardLocation.CLASS_OUTPUT, "", qualifiedName, new Element[0])
+            .createResource(StandardLocation.SOURCE_OUTPUT, "", qualifiedName, new Element[0])
             .openWriter()) {
       writer.write(content);
     }
