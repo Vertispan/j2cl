@@ -8,6 +8,7 @@
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
     <version>0.2-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>closure-test</artifactId>
   <packaging>pom</packaging>
