@@ -36,6 +36,8 @@
 
     <module>bootstrap</module>
 
+    <module>javac-bootstrap-classpath</module>
+
     <module>junit/emul</module>
     <module>junit/gwttestcase</module>
     <module>junit/closure-test</module>
