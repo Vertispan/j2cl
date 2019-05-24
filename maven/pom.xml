@@ -22,7 +22,11 @@
     <module>common</module>
     <module>ast</module>
     <module>ast-visitors</module>
+
     <module>frontend</module>
+    <module>frontend-common</module>
+    <module>frontend-jdt</module>
+
     <module>libraryinfo-proto</module>
     <module>libraryinfo</module>
     <module>generator</module>
@@ -41,6 +45,7 @@
     <module>junit/emul</module>
     <module>junit/gwttestcase</module>
     <module>junit/closure-test</module>
+    <module>junit/annotations</module>
     <module>junit/processor</module>
   </modules>
 
