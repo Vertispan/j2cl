@@ -45,6 +45,7 @@
         <include>html/safestylesheet.js</include>
         <include>dom/tags.js</include>
         <include>html/safehtml.js</include>
+        <include>html/trustedtypes.js</include>
         <include>html/uncheckedconversions.js</include>
         <include>labs/useragent/platform.js</include>
         <include>useragent/useragent.js</include>
@@ -101,6 +102,7 @@
         <include>labs/testing/environment.js</include>
         <include>testing/testsuite.js</include>
         <include>string/string.js</include>
+        <include>string/internal.js</include>
       </includes>
       <outputDirectory>closure/goog</outputDirectory>
     </fileSet>
