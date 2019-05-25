@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.vertispan.j2cl.external</groupId>
     <artifactId>org.eclipse</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
   </parent>
   <artifactId>org.eclipse.core.resources</artifactId>
   <packaging>pom</packaging>
