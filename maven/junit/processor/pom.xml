@@ -11,38 +11,9 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>junit-processor</artifactId>
-  <packaging>jar</packaging>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.0.0</version>
-        <executions>
-          <execution>
-            <id>attach-artifacts</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attach-artifact</goal>
-            </goals>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>../../../bazel-bin/junit/generator/java/com/google/j2cl/junit/apt/libjunit_processor.jar</file>
-                  <type>jar</type>
-                  <classifier>unshaded</classifier>
-                </artifact>
-                <artifact>
-                  <file>../../../bazel-bin/junit/generator/java/com/google/j2cl/junit/apt/libjunit_processor-src.jar</file>
-                  <type>jar</type>
-                  <classifier>sources</classifier>
-                </artifact>
-              </artifacts>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -106,15 +77,17 @@
             </configuration>
           </execution>
         </executions>
+        <dependencies>
+
+        </dependencies>
       </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>junit-processor</artifactId>
+      <artifactId>junit-processor-unshaded</artifactId>
       <version>${project.version}</version>
-      <classifier>unshaded</classifier>
     </dependency>
     <dependency>
       <groupId>com.google.auto</groupId>

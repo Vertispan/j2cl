@@ -46,6 +46,7 @@
     <module>junit/gwttestcase</module>
     <module>junit/closure-test</module>
     <module>junit/annotations</module>
+    <module>junit/processor/unshaded-pom.xml</module>
     <module>junit/processor</module>
   </modules>
 
