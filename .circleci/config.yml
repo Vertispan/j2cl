@@ -1,0 +1,135 @@
+defaults: &defaults
+    docker:
+      - image: vertispan/openjdk:8u222-jdk-stretch
+
+version: 2
+jobs:
+  closure_library:
+    <<: *defaults
+    working_directory: ~/
+    steps:
+      - run:
+          name: create build cache key
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          name: Restoring Cache - closure-library
+          keys:
+            - v1-closure-library-{{ checksum ".circle-sha" }}
+            # if cache is not present load any most recent
+            - v1-closure-library-
+      - run:
+          name: update or clone closure-library
+          command: |
+            if [ -e closure-library ]; then
+              # if the cache contained it, let's just update
+              echo update from remote
+
+              cd closure-library
+              git remote update
+              git pull
+            else
+              echo cloning repository
+              git clone https://github.com/google/closure-library
+            fi
+      - save_cache:
+          name: Saving Cache - closure-library
+          key: v1-closure-library-{{ checksum ".circle-sha" }}
+          paths:
+            - ~/closure-library
+
+  build:
+    <<: *defaults
+    working_directory: ~/j2cl
+    steps:
+      - checkout
+      - run:
+          name: create build cache key
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run:
+          name: environment check
+          command: |
+            java -XX:+PrintFlagsFinal -version | grep -iE 'HeapSize|PermSize|ThreadStackSize'
+            env MAVEN_OPTS="-XX:+PrintFlagsFinal" mvn -version | grep -iE 'HeapSize|PermSize|ThreadStackSize'
+            mvn -version
+
+      - run:
+          name: Rebase j2cl onto google upstream changes
+          command: |
+            echo rebasing onto upstream
+            set +e
+            git remote get-url upstream
+            if [ $? != 0 ]; then
+              echo adding google remote
+              git remote add upstream git@github.com:google/j2cl.git
+            fi
+            set -e
+            echo setup local git user
+            git config --global user.email "sales@vertispan.com"
+            git config --global user.name "Vertispan CI"
+            echo git remote update
+            git remote update
+            #echo git checkout origin/master
+            #git checkout origin/master
+
+            echo starting rebase on upstream/master
+            set +e
+            # temp comment out the rebase to test build
+            git rebase upstream/master
+            exitCode=$?;
+            set -e
+
+            if [ $exitCode != 0 ]; then
+              # not really needed
+              echo rebase failure
+              git rebase --abort
+              exit $exitCode;
+            fi
+
+      - restore_cache:
+          name: Restoring Cache - closure-library
+          keys:
+            - v1-closure-library-{{ checksum ".circle-sha" }}
+            # if cache is not present load any most recent - shouldn't happen by this point of build
+            - v1-closure-library-
+
+      - run:
+          name: Initialize Bazel
+          command: |
+            # limit the bazel jobs due to failures in circleci
+            echo "build --jobs=1" >> .bazelrc
+            echo "build --local_ram_resources=512" >> .bazelrc
+            echo "--host_jvm_args=-Xmx512m" >> .bazelrc
+            bazel clean --expunge
+      - run:
+          name: Run build
+          command: |
+            cd maven
+            # try up to 4 times
+            ./build.sh || ./build.sh || ./build.sh || ./build.sh
+      - restore_cache:
+          name:  Restoring Cache - m2 repository
+          keys:
+            - v1-dependencies-{{ checksum "maven/pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: Deploy jars
+          command: |
+            cd maven
+            mvn deploy -s ../.circleci/settings.xml -Dartifactory.username=$ARTIFACTORY_USER -Dartifactory.password=$ARTIFACTORY_APIKEY
+      - save_cache:
+          name:  Save Cache - m2 repository
+          paths:
+            - ~/.m2/repository
+          key: v1-dependencies-{{ checksum "maven/pom.xml" }}
+
+
+workflows:
+  version: 2
+  ci_build:
+    jobs:
+      - closure_library
+      - build:
+          requires:
+            - closure_library
+
