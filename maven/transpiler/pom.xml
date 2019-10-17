@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
   </parent>
   <artifactId>transpiler</artifactId>
   <packaging>pom</packaging>
@@ -52,12 +52,11 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>common</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.google.auto.value</groupId>
+      <artifactId>auto-value</artifactId>
     </dependency>
+
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>ast</artifactId>
@@ -66,6 +65,11 @@
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>ast-visitors</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
