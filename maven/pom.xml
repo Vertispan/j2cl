@@ -6,7 +6,7 @@
 
   <groupId>com.vertispan.j2cl</groupId>
   <artifactId>j2cl-parent</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -21,11 +21,16 @@
     <module>external</module>
     <module>common</module>
     <module>ast</module>
+    <module>ast-annotations</module>
+    <module>ast-annotations-internal</module>
+    <!--<module>ast-processors</module>-->
+    <module>ast-processors-common</module>
     <module>ast-visitors</module>
 
     <module>frontend</module>
     <module>frontend-common</module>
     <module>frontend-jdt</module>
+    <module>frontend-javac</module>
 
     <module>libraryinfo-proto</module>
     <module>libraryinfo</module>

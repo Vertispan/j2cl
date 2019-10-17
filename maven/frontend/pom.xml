@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
   </parent>
   <artifactId>frontend</artifactId>
   <packaging>pom</packaging>
@@ -51,12 +51,12 @@
 
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>ast</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>ast</artifactId>
+      <artifactId>common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -67,6 +67,11 @@
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>frontend-jdt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>frontend-javac</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
