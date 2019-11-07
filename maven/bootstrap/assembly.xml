@@ -8,27 +8,6 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
-      <directory>../../jre/java/javaemul/internal/vmbootstrap/</directory>
-      <includes>
-        <include>*.js</include>
-      </includes>
-      <outputDirectory>javaemul/internal/vmbootstrap</outputDirectory>
-    </fileSet>
-    <fileSet>
-      <directory>../../bazel-genfiles/jre/java/javaemul/internal/vmbootstrap/primitives</directory>
-      <includes>
-        <include>*.js</include>
-      </includes>
-      <outputDirectory>javaemul/internal/vmbootstrap/primitives</outputDirectory>
-    </fileSet>
-    <fileSet>
-      <directory>../../jre/java/javaemul/internal/nativebootstrap/</directory>
-      <includes>
-        <include>*.js</include>
-      </includes>
-      <outputDirectory>javaemul/internal/nativebootstrap</outputDirectory>
-    </fileSet>
-    <fileSet>
       <directory>../../../closure-library/closure/goog/</directory>
       <includes>
         <!--
@@ -46,10 +25,4 @@
       <outputDirectory>closure/goog</outputDirectory>
     </fileSet>
   </fileSets>
-  <files>
-    <file>
-      <source>../../jre/java/java/lang/jre.js</source>
-      <outputDirectory>java/lang</outputDirectory>
-    </file>
-  </files>
 </assembly>
