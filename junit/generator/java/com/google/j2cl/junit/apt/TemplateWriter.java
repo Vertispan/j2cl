@@ -60,7 +60,7 @@ class TemplateWriter {
     testSummary.add(testSuiteFileName + ".js");
     try {
       String mergedJsTemplate = mergeTemplate(testClass, "com/google/j2cl/junit/apt/JsSuite.vm");
-      writeResource(testSuiteFileName + ".js", mergedJsTemplate);
+      writeResource(testSuiteFileName + ".testsuite", mergedJsTemplate);
       String mergedJavaTemplate =
           mergeTemplate(testClass, "com/google/j2cl/junit/apt/JsUnitAdapter.vm");
       writeClass(testClass.jsUnitAdapterQualifiedClassName(), mergedJavaTemplate);
