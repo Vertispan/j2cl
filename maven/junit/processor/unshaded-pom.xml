@@ -47,6 +47,11 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>junit-async</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.auto</groupId>
             <artifactId>auto-common</artifactId>
         </dependency>
