@@ -26,7 +26,7 @@ jobs:
 
               cd closure-library
               git remote update
-              git pull
+              git reset --hard origin/master
             else
               echo cloning repository
               git clone https://github.com/google/closure-library
