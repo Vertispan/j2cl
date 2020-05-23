@@ -18,19 +18,20 @@
         <include>promise/resolver.js</include>
         <include>async/freelist.js</include>
         <include>async/workqueue.js</include>
-        <include>dom/htmlelement.js</include>
-        <include>dom/tagname.js</include>
         <include>string/internal.js</include>
         <include>object/object.js</include>
         <include>labs/useragent/util.js</include>
         <include>array/array.js</include>
         <include>labs/useragent/browser.js</include>
+        <include>dom/htmlelement.js</include>
+        <include>dom/tagname.js</include>
         <include>debug/entrypointregistry.js</include>
+        <include>fs/url.js</include>
         <include>string/typedstring.js</include>
         <include>string/const.js</include>
-        <include>fs/url.js</include>
         <include>i18n/bidi.js</include>
         <include>fs/blob.js</include>
+        <include>memoize/memoize.js</include>
         <include>html/trustedtypes.js</include>
         <include>html/safescript.js</include>
         <include>html/trustedresourceurl.js</include>
@@ -44,8 +45,8 @@
         <include>functions/functions.js</include>
         <include>dom/safe.js</include>
         <include>string/string.js</include>
-        <include>labs/useragent/engine.js</include>
         <include>labs/useragent/platform.js</include>
+        <include>labs/useragent/engine.js</include>
         <include>useragent/useragent.js</include>
         <include>math/size.js</include>
         <include>dom/browserfeature.js</include>
