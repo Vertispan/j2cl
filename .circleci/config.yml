@@ -31,7 +31,7 @@ jobs:
               echo cloning repository
               git clone https://github.com/google/closure-library
             fi
-      - save_cache:
+      - save_cache: # TODO this should probably be using workspace, not cache
           name: Saving Cache - closure-library
           key: v1-closure-library-{{ checksum ".circle-sha" }}
           paths:
@@ -85,27 +85,40 @@ jobs:
               exit $exitCode;
             fi
 
-      - restore_cache:
+      - restore_cache: # TODO this should probably be using workspace, not cache
           name: Restoring Cache - closure-library
           keys:
             - v1-closure-library-{{ checksum ".circle-sha" }}
             # if cache is not present load any most recent - shouldn't happen by this point of build
             - v1-closure-library-
 
+      - restore_cache:
+          name: Restoring cache - bazel repository
+          key: v1-bazel-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "build_defs/repository.bzl" }}
+          paths:
+            - ~/bazel_repository_cache
       - run:
-          name: Initialize Bazel
+          name: Initialize bazel options
           command: |
             # limit the bazel jobs due to failures in circleci
             echo "build --jobs=1" >> .bazelrc
             echo "build --local_ram_resources=512" >> .bazelrc
             echo "--host_jvm_args=-Xmx512m" >> .bazelrc
-            bazel clean --expunge
+            # ask bazel to put its downloaded resources in a directory we can cache
+            echo "build --repository_cache=~/bazel_repository_cache" >> .bazelrc
+            # verify that all dependencies are up to date
+            bazel sync
       - run:
-          name: Run build
+          name: Run bazel build
           command: |
             cd maven
-            # try up to 4 times
+            # try up to 4 times, bazel requests more resources than circleci will give it
             ./build.sh || ./build.sh || ./build.sh || ./build.sh
+      - save_cache:
+          name: Save Cache - bazel repository
+          key: v1-bazel-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "build_defs/repository.bzl" }}
+          paths:
+            - ~/bazel_repository_cache
       - restore_cache:
           name:  Restoring Cache - m2 repository
           keys:
