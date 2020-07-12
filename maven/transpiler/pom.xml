@@ -15,6 +15,31 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <jar destfile="${project.build.directory}/transpiler.jar">
+                  <zipfileset src="../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/libtranspiler_lib.jar" />
+                  <zipfileset src="../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/libcommandlinerunner_lib.jar" />
+                </jar>
+                <jar destfile="${project.build.directory}/transpiler-src.jar">
+                  <zipfileset src="../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/libtranspiler_lib-src.jar" />
+                  <zipfileset src="../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/libcommandlinerunner_lib-src.jar" />
+                </jar>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.0.0</version>
@@ -28,11 +53,11 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/libtranspiler_lib.jar</file>
+                  <file>${project.build.directory}/transpiler.jar</file>
                   <type>jar</type>
                 </artifact>
                 <artifact>
-                  <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/libtranspiler_lib-src.jar</file>
+                  <file>${project.build.directory}/transpiler-src.jar</file>
                   <type>jar</type>
                   <classifier>sources</classifier>
                 </artifact>
