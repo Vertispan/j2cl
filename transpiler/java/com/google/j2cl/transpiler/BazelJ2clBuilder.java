@@ -150,6 +150,7 @@ final class BazelJ2clBuilder extends BazelWorker {
         .setExperimentalOptimizeAutovalue(this.experimentalOptimizeAutovalue)
         .setFrontend(FRONTEND)
         .setBackend(this.backend)
+        .setWriteTypeGraph(false) // not enabling this from bazel yet
         .setWasmEntryPoints(ImmutableSet.copyOf(wasmEntryPoints))
         .build();
   }
