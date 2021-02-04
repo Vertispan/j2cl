@@ -54,6 +54,8 @@ public abstract class J2clTranspilerOptions {
 
   public abstract Backend getBackend();
 
+  public abstract boolean getWriteTypeGraph();
+
   @Nullable
   public abstract ImmutableSet<String> getWasmEntryPoints();
 
@@ -88,6 +90,8 @@ public abstract class J2clTranspilerOptions {
     public abstract Builder setFrontend(Frontend frontend);
 
     public abstract Builder setBackend(Backend backend);
+
+    public abstract Builder setWriteTypeGraph(boolean bool);
 
     public abstract Builder setWasmEntryPoints(ImmutableSet<String> wasmEntryPoints);
 

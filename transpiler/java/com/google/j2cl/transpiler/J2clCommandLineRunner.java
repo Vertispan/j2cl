@@ -77,6 +77,13 @@ public final class J2clCommandLineRunner extends CommandLineTool {
       hidden = true)
   Frontend frontEnd = Frontend.JDT;
 
+  @Option(
+        name = "-writeTypeGraph",
+        usage = "Writes the type grpah to disk. Default is off.",
+        hidden = true)
+  protected boolean writeTypeGraph = false;
+
+
   private J2clCommandLineRunner() {
     super("j2cl");
   }
@@ -113,6 +120,7 @@ public final class J2clCommandLineRunner extends CommandLineTool {
         .setGenerateKytheIndexingMetadata(this.generateKytheIndexingMetadata)
         .setFrontend(this.frontEnd)
         .setBackend(Backend.CLOSURE)
+        .setWriteTypeGraph(this.writeTypeGraph)
         .build();
   }
 

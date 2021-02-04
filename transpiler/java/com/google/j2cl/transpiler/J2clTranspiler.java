@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import com.google.j2cl.transpiler.incremental.TypeGraphManager;
 
 /** Translation tool for generating JavaScript source files from Java sources. */
 public class J2clTranspiler {
@@ -54,6 +55,9 @@ public class J2clTranspiler {
   private final J2clTranspilerOptions options;
   private final Problems problems;
 
+  // This is just here for test, to test it's internal state
+  private TypeGraphManager typeGraphManager;
+
   private J2clTranspiler(J2clTranspilerOptions options, Problems problems) {
     this.options = options;
     this.problems = problems;
@@ -72,6 +76,11 @@ public class J2clTranspiler {
       checkUnits(j2clUnits);
       normalizeUnits(j2clUnits);
     }
+
+    if (options.getWriteTypeGraph() && !problems.hasErrors()) {
+      this.typeGraphManager = TypeGraphManager.writeGraph(options, j2clUnits);
+    }
+
     options
         .getBackend()
         .generateOutputs(
@@ -98,5 +107,9 @@ public class J2clTranspiler {
         pass.execute(j2clUnit);
       }
     }
+  }
+
+  TypeGraphManager getTypeGraphManager() {
+    return typeGraphManager;
   }
 }
