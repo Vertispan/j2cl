@@ -26,6 +26,8 @@ import com.google.j2cl.common.SourceUtils.FileInfo;
 import com.google.j2cl.transpiler.ast.CompilationUnit;
 import com.google.j2cl.transpiler.ast.Type;
 import com.google.j2cl.transpiler.ast.TypeDeclaration;
+import com.google.j2cl.transpiler.backend.jsinputinfo.J2clInput;
+import com.google.j2cl.transpiler.backend.jsinputinfo.J2clInputBuilder;
 import com.google.j2cl.transpiler.backend.libraryinfo.LibraryInfoBuilder;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -49,6 +51,7 @@ public class OutputGeneratorStage {
   private final boolean shouldGenerateReadableSourceMaps;
   private final boolean shouldGenerateReadableLibraryInfo;
   private final boolean generateKytheIndexingMetadata;
+  private final boolean shouldEmitInputMappings = true;
 
   public OutputGeneratorStage(
       List<FileInfo> nativeJavaScriptFiles,
@@ -169,6 +172,41 @@ public class OutputGeneratorStage {
               headerRelativePath,
               implRelativePath,
               jsImplGenerator.getOutputSourceInfoByMember());
+        }
+
+        if (shouldEmitInputMappings) {
+          String ownSourceFile = getPackageRelativePath(j2clCompilationUnit) + ".java";
+
+          J2clInput.Builder input = J2clInput.newBuilder();
+          input.setName(ownSourceFile);
+
+          for (Import i : imports) {
+            // TODO consider filtering based on category? Aside from SELF we probably need them all
+            String packageRelativePath = getPackageRelativePath(i.getElement().getPackageName(), i.getElement().getClassComponents().get(0)) + ".java";
+            // don't add a dependency on ourself or on synthetic types, since they don't exist on disk
+            // TODO possibly ignore bootstrap namespaces for the same reason?
+            if (!packageRelativePath.equals(ownSourceFile) && !packageRelativePath.startsWith("$synthetic/")) {
+              input.addDeps(packageRelativePath);
+            }
+          }
+
+          input.addOutputs(implRelativePath);
+          input.addOutputs(headerRelativePath);
+          if (matchingNativeFile != null) {
+            input.addOutputs(matchingNativeFile.getRelativeFilePath());
+            // The native.js file is also considered a dependency, if it changes we need to signal recompile, but
+            // not recompile our dependencies
+            input.addDeps(matchingNativeFile.toString());
+          }
+          if (!generateKytheIndexingMetadata) {
+            input.addOutputs(typeRelativePath + SOURCE_MAP_SUFFIX);
+            input.addOutputs(ownSourceFile);
+          }
+          //TODO mark readable source maps as outputs if included
+
+          String jsInputInfoPath = typeRelativePath + ".build.json";
+          input.addOutputs(jsInputInfoPath);// this file is also an output
+          writeToFile(outputPath.resolve(jsInputInfoPath), J2clInputBuilder.toJsonString(input, problems));
         }
 
         if (matchingNativeFile != null) {

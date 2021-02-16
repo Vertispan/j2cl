@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package j2cl;
+
+option java_multiple_files = true;
+option java_package = "com.google.j2cl.transpiler.backend.jsinputinfo";
+
+message J2clInput {
+  string name = 1; // source path
+  repeated string deps = 2; // list of other source paths this depends on
+  repeated string outputs = 3; // list of output file paths
+}

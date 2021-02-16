@@ -15,5 +15,6 @@ java_library(
         "//transpiler/java/com/google/j2cl/transpiler/ast",
         "//transpiler/java/com/google/j2cl/transpiler/backend/common",
         "//transpiler/java/com/google/j2cl/transpiler/backend/libraryinfo",
+        "//transpiler/java/com/google/j2cl/transpiler/backend/jsinputinfo",
     ],
 )
