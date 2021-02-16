@@ -9,7 +9,7 @@
         <artifactId>j2cl-parent</artifactId>
         <version>0.9-j2clinput-SNAPSHOT</version>
     </parent>
-    <artifactId>frontend-javac</artifactId>
+    <artifactId>backend-j2clinput-proto</artifactId>
     <packaging>pom</packaging>
 
     <build>
@@ -28,14 +28,14 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/frontend/javac/libjavac.jar</file>
+                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/jsinputinfo/libjsinput_info_proto-speed.jar</file>
                                     <type>jar</type>
                                 </artifact>
-                                <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/frontend/javac/libjavac-src.jar</file>
-                                    <type>jar</type>
-                                    <classifier>sources</classifier>
-                                </artifact>
+                                <!--<artifact>-->
+                                <!--<file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/jsinputinfo/libjsinput_info_proto-speed-src.jar</file>-->
+                                <!--<type>jar</type>-->
+                                <!--<classifier>sources</classifier>-->
+                                <!--</artifact>-->
                             </artifacts>
                         </configuration>
                     </execution>
@@ -45,28 +45,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.jsinterop</groupId>
-            <artifactId>jsinterop-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.errorprone</groupId>
-            <artifactId>javac</artifactId>
-            <version>1.9.0-dev-r2644-1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>ast</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>frontend-common</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <!--<type>bundle</type>-->
         </dependency>
     </dependencies>
 </project>

@@ -9,7 +9,7 @@
         <artifactId>j2cl-parent</artifactId>
         <version>0.9-j2clinput-SNAPSHOT</version>
     </parent>
-    <artifactId>backend</artifactId>
+    <artifactId>backend-j2clinput</artifactId>
     <packaging>pom</packaging>
 
     <build>
@@ -28,11 +28,11 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/libbackend.jar</file>
+                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/jsinputinfo/libjsinputinfo.jar</file>
                                     <type>jar</type>
                                 </artifact>
                                 <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/libbackend-src.jar</file>
+                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/jsinputinfo/libjsinputinfo-src.jar</file>
                                     <type>jar</type>
                                     <classifier>sources</classifier>
                                 </artifact>
@@ -48,30 +48,24 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <!--<type>bundle</type>-->
+        </dependency>
 
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
+            <artifactId>backend-j2clinput-proto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vertispan.j2cl</groupId>
             <artifactId>common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>ast</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>backend-closure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>backend-wasm</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>passes</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

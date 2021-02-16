@@ -6,7 +6,7 @@
 
   <groupId>com.vertispan.j2cl</groupId>
   <artifactId>j2cl-parent</artifactId>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.9-j2clinput-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -28,6 +28,8 @@
     <module>backend-common</module>
     <module>backend-libraryinfo</module>
     <module>backend-libraryinfo-proto</module>
+    <module>backend-j2clinput</module>
+    <module>backend-j2clinput-proto</module>
     <module>backend-closure</module>
     <module>backend-wasm</module>
 
