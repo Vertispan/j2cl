@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.10-SNAPSHOT</version>
   </parent>
   <artifactId>libraryinfo-proto</artifactId>
   <packaging>pom</packaging>
@@ -28,11 +28,11 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../bazel-bin/transpiler/java/com/google/j2cl/libraryinfo/liblibrary_info_proto-speed.jar</file>
+                  <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/libraryinfo/liblibrary_info_proto-speed.jar</file>
                   <type>jar</type>
                 </artifact>
                 <!--<artifact>-->
-                  <!--<file>../../bazel-bin/transpiler/java/com/google/j2cl/libraryinfo/liblibraryinfo-src.jar</file>-->
+                  <!--<file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/libraryinfo/liblibraryinfo-src.jar</file>-->
                   <!--<type>jar</type>-->
                   <!--<classifier>sources</classifier>-->
                 <!--</artifact>-->

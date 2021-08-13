@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
-    <version>${revision}</version>
+    <version>0.10-SNAPSHOT</version>
   </parent>
   <artifactId>transpiler</artifactId>
   <packaging>pom</packaging>
@@ -49,14 +49,23 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>com.google.auto.value</groupId>
+      <artifactId>auto-value</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.auto.value</groupId>
-      <artifactId>auto-value</artifactId>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.vertispan.j2cl</groupId>
+      <artifactId>common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
       <artifactId>ast</artifactId>
@@ -64,12 +73,7 @@
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>ast-visitors</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>backend</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -79,7 +83,7 @@
     </dependency>
     <dependency>
       <groupId>com.vertispan.j2cl</groupId>
-      <artifactId>generator</artifactId>
+      <artifactId>passes</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
