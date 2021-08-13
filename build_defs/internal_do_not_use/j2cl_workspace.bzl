@@ -28,18 +28,18 @@ def setup_j2cl_workspace(**kwargs):
 
     jvm_maven_import_external(
         name = "com_google_auto_service_annotations",
-        artifact = "com.google.auto.service:auto-service-annotations:1.0-rc7",
+        artifact = "com.google.auto.service:auto-service-annotations:1.0",
         server_urls = _MAVEN_CENTRAL_URLS,
         licenses = ["notice"],
-        artifact_sha256 = "986dc826fa0a43bf9f04194c1a8667774f4f44190ec816b08554b47891ba5459",
+        artifact_sha256 = "44752893119fdaf01b4c5ee74e46e5dab86f2dcda18114c562f877355c6ed26e",
     )
 
     jvm_maven_import_external(
         name = "com_google_auto_service",
-        artifact = "com.google.auto.service:auto-service:1.0-rc7",
+        artifact = "com.google.auto.service:auto-service:1.0",
         server_urls = _MAVEN_CENTRAL_URLS,
         licenses = ["notice"],
-        artifact_sha256 = "24f13c98baf5fb87e7502fd87130457941cda405ec6ff28d8ff964a8f58a82ed",
+        artifact_sha256 = "4ae44dd05b49a1109a463c0d2aaf920c24f76d1e996bb89f29481c4ff75ec526",
     )
 
     # We cannot replace com_google_jsinterop_annotations so choose a different name
