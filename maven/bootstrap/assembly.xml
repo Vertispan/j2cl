@@ -8,6 +8,7 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
+<!--      <directory>../../bazel-j2cl/external/com_google_javascript_closure_library/closure</directory>-->
       <directory>../../../closure-library/closure/goog/</directory>
       <includes>
         <!--

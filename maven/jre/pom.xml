@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.vertispan.j2cl</groupId>
     <artifactId>j2cl-parent</artifactId>
-    <version>${revision}</version>
+    <version>0.10-SNAPSHOT</version>
   </parent>
   <artifactId>jre</artifactId>
   <packaging>pom</packaging>
@@ -52,7 +52,6 @@
     <dependency>
       <groupId>com.google.jsinterop</groupId>
       <artifactId>jsinterop-annotations</artifactId>
-      <version>2.0.0</version>
     </dependency>
 
       <!-- may not be required here, but has to be lumped in to the j2cl bytecode classpath -->
