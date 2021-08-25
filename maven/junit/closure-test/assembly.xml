@@ -20,17 +20,19 @@
         <include>async/freelist.js</include>
         <include>async/nexttick.js</include>
         <include>async/run.js</include>
+        <include>async/throwexception.js</include>
         <include>async/workqueue.js</include>
+        <include>collections/iters.js</include>
         <include>debug/console.js</include>
         <include>debug/debug.js</include>
         <include>debug/entrypointregistry.js</include>
         <include>debug/errorcontext.js</include>
+        <include>debug/errorhandler.js</include>
         <include>debug/formatter.js</include>
-        <include>debug/logbuffer.js</include>
-        <include>debug/logger.js</include>
-        <include>debug/logrecord.js</include>
         <include>debug/relativetimeprovider.js</include>
         <include>disposable/disposable.js</include>
+        <include>disposable/disposeall.js</include>
+        <include>disposable/dispose.js</include>
         <include>disposable/idisposable.js</include>
         <include>dom/asserts.js</include>
         <include>dom/browserfeature.js</include>
@@ -44,13 +46,18 @@
         <include>events/browserfeature.js</include>
         <include>events/eventid.js</include>
         <include>events/event.js</include>
+        <include>events/eventhandler.js</include>
+        <include>events/eventlike.js</include>
         <include>events/events.js</include>
         <include>events/eventtarget.js</include>
         <include>events/eventtype.js</include>
+        <include>events/eventwrapper.js</include>
         <include>events/keycodes.js</include>
         <include>events/listenable.js</include>
+        <include>events/listenablekey.js</include>
         <include>events/listener.js</include>
         <include>events/listenermap.js</include>
+        <include>fs/blob.js</include>
         <include>fs/url.js</include>
         <include>functions/functions.js</include>
         <include>html/safehtml.js</include>
@@ -62,13 +69,13 @@
         <include>html/trustedtypes.js</include>
         <include>html/uncheckedconversions.js</include>
         <include>i18n/bidi.js</include>
-        <include>iter/iter.js</include>
         <include>json/json.js</include>
         <include>labs/testing/environment.js</include>
         <include>labs/useragent/browser.js</include>
         <include>labs/useragent/engine.js</include>
         <include>labs/useragent/platform.js</include>
         <include>labs/useragent/util.js</include>
+        <include>log/log.js</include>
         <include>math/box.js</include>
         <include>math/coordinate.js</include>
         <include>math/irect.js</include>
@@ -83,12 +90,9 @@
         <include>string/internal.js</include>
         <include>string/string.js</include>
         <include>string/typedstring.js</include>
-        <include>structs/collection.js</include>
-        <include>structs/map.js</include>
-        <include>structs/set.js</include>
-        <include>structs/structs.js</include>
         <include>style/style.js</include>
         <include>testing/asserts.js</include>
+        <include>testing/cspviolationobserver.js</include>
         <include>testing/events/events.js</include>
         <include>testing/functionmock.js</include>
         <include>testing/jsunitexception.js</include>
@@ -105,9 +109,19 @@
         <include>testing/testcase.js</include>
         <include>testing/testrunner.js</include>
         <include>testing/testsuite.js</include>
+        <include>url/url.js</include>
         <include>useragent/useragent.js</include>
       </includes>
       <outputDirectory>closure/goog</outputDirectory>
     </fileSet>
+      <fileSet>
+          <directory>../../../../closure-library/third_party/closure/goog/mochikit/async</directory>
+          <excludes>
+              <exclude>**/*_test.js</exclude>
+              <exclude>**/*.html</exclude>
+          </excludes>
+          <outputDirectory>closure/goog/mochikit/async</outputDirectory>
+      </fileSet>
+
   </fileSets>
 </assembly>

@@ -22,6 +22,8 @@
         <include>asserts/asserts.js</include>
         <include>reflect/reflect.js</include>
         <include>math/long.js</include>
+        <!-- We aren't interested in this file, but apparently if put in a jszip without base.js, it is a compiler error -->
+        <include>goog.js</include>
       </includes>
       <outputDirectory>closure/goog</outputDirectory>
     </fileSet>
