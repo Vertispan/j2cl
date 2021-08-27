@@ -52,38 +52,38 @@ jobs:
             env MAVEN_OPTS="-XX:+PrintFlagsFinal" mvn -version | grep -iE 'HeapSize|PermSize|ThreadStackSize'
             mvn -version
 
-      - run:
-          name: Rebase j2cl onto google upstream changes
-          command: |
-            echo rebasing onto upstream
-            set +e
-            git remote get-url upstream
-            if [ $? != 0 ]; then
-              echo adding google remote
-              git remote add upstream git@github.com:google/j2cl.git
-            fi
-            set -e
-            echo setup local git user
-            git config --global user.email "sales@vertispan.com"
-            git config --global user.name "Vertispan CI"
-            echo git remote update
-            git remote update
-            #echo git checkout origin/master
-            #git checkout origin/master
-
-            echo starting rebase on upstream/master
-            set +e
-            # temp comment out the rebase to test build
-            git rebase upstream/master
-            exitCode=$?;
-            set -e
-
-            if [ $exitCode != 0 ]; then
-              # not really needed
-              echo rebase failure
-              git rebase --abort
-              exit $exitCode;
-            fi
+#      - run:
+#          name: Rebase j2cl onto google upstream changes
+#          command: |
+#            echo rebasing onto upstream
+#            set +e
+#            git remote get-url upstream
+#            if [ $? != 0 ]; then
+#              echo adding google remote
+#              git remote add upstream git@github.com:google/j2cl.git
+#            fi
+#            set -e
+#            echo setup local git user
+#            git config --global user.email "sales@vertispan.com"
+#            git config --global user.name "Vertispan CI"
+#            echo git remote update
+#            git remote update
+#            #echo git checkout origin/master
+#            #git checkout origin/master
+#
+#            echo starting rebase on upstream/master
+#            set +e
+#            # temp comment out the rebase to test build
+#            git rebase upstream/master
+#            exitCode=$?;
+#            set -e
+#
+#            if [ $exitCode != 0 ]; then
+#              # not really needed
+#              echo rebase failure
+#              git rebase --abort
+#              exit $exitCode;
+#            fi
 
       - restore_cache: # TODO this should probably be using workspace, not cache
           name: Restoring Cache - closure-library
