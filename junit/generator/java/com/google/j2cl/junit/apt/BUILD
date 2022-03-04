@@ -1,4 +1,5 @@
 load("//build_defs:rules.bzl", "j2cl_library")
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
 
 package(licenses = ["notice"])
 
@@ -8,6 +9,10 @@ j2cl_library(
     srcs = ["J2clTestInput.java"],
     exported_plugins = [":junit_processor_plugin"],
     visibility = ["//build_defs/internal_do_not_use:__pkg__"],
+)
+javadoc_library(
+    name = "internal_junit_annotations-javadoc",
+    srcs = ["J2clTestInput.java"],
 )
 
 java_plugin(
@@ -36,7 +41,14 @@ java_library(
     ],
     plugins = [":autoservice_plugin"],
 )
-
+javadoc_library(
+    name = "junit_processor-javadoc",
+    testonly = 1,
+    srcs = glob(["*.java"]),
+    deps = [
+        ":junit_processor",
+    ],
+)
 
 java_plugin(
     name = "autoservice_plugin",

@@ -1,3 +1,5 @@
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
+
 package(
     default_visibility = [
         "//tools:__subpackages__",
@@ -14,5 +16,13 @@ java_library(
         "//third_party:auto_value",
         "//third_party:guava",
         "//third_party:jsr305_annotations",
+    ],
+)
+
+javadoc_library(
+    name = "common-javadoc",
+    srcs = glob(["*.java"]),
+    deps = [
+        ":common"
     ],
 )

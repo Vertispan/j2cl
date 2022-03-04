@@ -36,7 +36,40 @@
                   <type>jar</type>
                   <classifier>sources</classifier>
                 </artifact>
+                <!-- We're explicitly not supporting this for now, as they are internal, but moving into j2cl soon, will be easier -->
+<!--                <artifact>-->
+<!--                  <file>../../bazel-bin/external/org_gwtproject_gwt/user/gwt-javaemul-internal-annotations-javadoc.jar</file>-->
+<!--                  <type>jar</type>-->
+<!--                  <classifier>javadoc</classifier>-->
+<!--                </artifact>-->
               </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Create an empty javadoc jar for now -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>javadoc-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>javadoc</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>sources-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>sources</classifier>
             </configuration>
           </execution>
         </executions>

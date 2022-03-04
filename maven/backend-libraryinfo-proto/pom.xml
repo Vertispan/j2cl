@@ -31,12 +31,34 @@
                   <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/libraryinfo/liblibrary_info_proto-speed.jar</file>
                   <type>jar</type>
                 </artifact>
-                <!--<artifact>-->
-                  <!--<file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/libraryinfo/liblibraryinfo-src.jar</file>-->
-                  <!--<type>jar</type>-->
-                  <!--<classifier>sources</classifier>-->
-                <!--</artifact>-->
               </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- This jar is generated and has no sources or javadoc -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>javadoc-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>javadoc</classifier>
+            </configuration>
+          </execution>
+          <execution>
+            <id>sources-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>sources</classifier>
             </configuration>
           </execution>
         </executions>

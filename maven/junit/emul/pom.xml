@@ -37,6 +37,11 @@
                   <type>jar</type>
                   <classifier>sources</classifier>
                 </artifact>
+                <artifact>
+                  <file>../../../bazel-bin/junit/emul/java/junit_emul-javadoc.jar</file>
+                  <type>jar</type>
+                  <classifier>javadoc</classifier>
+                </artifact>
               </artifacts>
             </configuration>
           </execution>

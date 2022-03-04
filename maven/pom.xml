@@ -9,6 +9,50 @@
   <version>0.10-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>J2CL</name>
+  <description>
+    J2CL is a powerful, simple and lightweight transpiler from Java to Closure style JavaScript.
+    The project is designed, implemented, and maintained by the J2CL team at Google.
+    This distribution is slightly modified from the original and packaged for Maven Central by Vertispan LLC.
+    The links and references in this pom.xml will reference the Vertispan fork, to ensure that any error introduced
+    by our packaging are not incorrectly blamed on the upstream Google repository.
+  </description>
+  <url>https://github.com/vertispan/j2cl</url>
+  <inceptionYear>2015</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>J2CL team</name>
+      <organization>Google</organization>
+      <organizationUrl>https://www.google.com</organizationUrl>
+    </developer>
+    <developer>
+      <name>Colin Alworth</name>
+      <email>colin@vertispan.com</email>
+      <organization>Vertispan LLC</organization>
+      <organizationUrl>https://www.vertispan.com/</organizationUrl>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>https://github.com/vertispan/j2cl/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:git:https://github.com/vertispan/j2cl.git</connection>
+    <developerConnection>scm:git:git@github.com:vertispan/j2cl.git</developerConnection>
+    <url>https://github.com/vertispan/j2cl</url>
+  </scm>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
@@ -20,10 +64,6 @@
   <modules>
     <module>external</module>
     <module>common</module>
-<!--    <module>ast-annotations</module>-->
-<!--    <module>ast-annotations-internal</module>-->
-    <!--<module>ast-processors</module>-->
-<!--    <module>ast-processors-common</module>-->
     <module>common-visitor</module>
 
     <!-- the next block should all be prefixed transpiler, but aren't -->
@@ -69,9 +109,9 @@
 
   <distributionManagement>
     <repository>
-      <id>vertispan-releases</id>
-      <name>Vertispan hosted artifacts-releases</name>
-      <url>https://repo.vertispan.com/j2cl</url>
+      <id>ossrh</id>
+      <name>Sonatype staging repository for Maven Central</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
       <id>vertispan-snapshots</id>
@@ -235,4 +275,28 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

@@ -1,3 +1,5 @@
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
+
 package(
     default_visibility = ["//transpiler:__subpackages__"],
     licenses = ["notice"],
@@ -15,5 +17,13 @@ java_library(
         "//transpiler/java/com/google/j2cl/transpiler/ast",
         "//transpiler/java/com/google/j2cl/transpiler/backend/common",
         "//transpiler/java/com/google/j2cl/transpiler/backend/libraryinfo",
+    ],
+)
+
+javadoc_library(
+    name = "closure-javadoc",
+    srcs = glob(["*.java"]),
+    deps = [
+        ":closure",
     ],
 )

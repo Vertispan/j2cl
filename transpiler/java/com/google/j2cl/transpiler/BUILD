@@ -1,4 +1,5 @@
 package(licenses = ["notice"])
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
 
 java_library(
     name = "transpiler_lib",
@@ -15,6 +16,16 @@ java_library(
         "//transpiler/java/com/google/j2cl/transpiler/backend",
         "//transpiler/java/com/google/j2cl/transpiler/frontend",
         "//transpiler/java/com/google/j2cl/transpiler/passes",
+    ],
+)
+javadoc_library(
+    name = "transpiler_lib-javadoc",
+    srcs = [
+        "J2clTranspiler.java",
+        "J2clTranspilerOptions.java",
+    ],
+    deps = [
+        ":transpiler_lib",
     ],
 )
 

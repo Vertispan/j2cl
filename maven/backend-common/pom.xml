@@ -36,6 +36,11 @@
                                     <type>jar</type>
                                     <classifier>sources</classifier>
                                 </artifact>
+                                <artifact>
+                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/common/common-javadoc.jar</file>
+                                    <type>jar</type>
+                                    <classifier>javadoc</classifier>
+                                </artifact>
                             </artifacts>
                         </configuration>
                     </execution>
