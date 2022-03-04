@@ -3,6 +3,8 @@
 #   annotations on source code elements and comments them out so that they do not get parsed by
 #   J2CL.
 
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
+
 package(
     licenses = ["notice"],
 )
@@ -20,6 +22,17 @@ java_library(
         "//third_party:jdt-core",
         "//transpiler/java/com/google/j2cl/common",
         "//transpiler/java/com/google/j2cl/transpiler/frontend/jdt",
+    ],
+)
+
+javadoc_library(
+    name = "gwtincompatible_lib-javadoc",
+    srcs = glob(
+        ["*.java"],
+        exclude = ["BazelGwtIncompatibleStripper.java"],
+    ),
+    deps = [
+        ":gwtincompatible_lib",
     ],
 )
 

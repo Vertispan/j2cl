@@ -1,4 +1,5 @@
 load("//build_defs:rules.bzl", "j2cl_import")
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -13,6 +14,10 @@ java_library(
 
 java_library(
     name = "visitor-internal",
+    srcs = glob(["*.java"]),
+)
+javadoc_library(
+    name = "visitor-internal-javadoc",
     srcs = glob(["*.java"]),
 )
 

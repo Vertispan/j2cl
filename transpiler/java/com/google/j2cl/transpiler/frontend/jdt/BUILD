@@ -1,6 +1,8 @@
 # Description:
 #   This package contains frontend that uses Eclispe/JDT to parse, typecheck and resolve Java code.
 
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
+
 package(
     default_visibility = [
         "//tools/java/com/google/j2cl/tools/gwtincompatible:__pkg__",
@@ -20,5 +22,13 @@ java_library(
         "//transpiler/java/com/google/j2cl/common",
         "//transpiler/java/com/google/j2cl/transpiler/ast",
         "//transpiler/java/com/google/j2cl/transpiler/frontend/common",
+    ],
+)
+
+javadoc_library(
+    name = "jdt-javadoc",
+    srcs = glob(["*.java"]),
+    deps = [
+        ":jdt",
     ],
 )

@@ -36,7 +36,40 @@
                                     <type>jar</type>
                                     <classifier>sources</classifier>
                                 </artifact>
+                                <!-- Still imported from gwtproject, and pretty sparse docs anyway -->
+<!--                                <artifact>-->
+<!--                                    <file>../../bazel-bin/jre/java/jre_bootclasspath-javadoc.jar</file>-->
+<!--                                    <type>jar</type>-->
+<!--                                    <classifier>javadoc</classifier>-->
+<!--                                </artifact>-->
                             </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Create an empty javadoc jar for now -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>javadoc</classifier>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>sources-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>sources</classifier>
                         </configuration>
                     </execution>
                 </executions>

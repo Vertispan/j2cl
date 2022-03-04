@@ -37,6 +37,11 @@
                   <type>jar</type>
                   <classifier>sources</classifier>
                 </artifact>
+                <artifact>
+                  <file>../../../bazel-bin/jre/javatests/com/google/gwt/junit/gwttestcase_emul-javadoc.jar</file>
+                  <type>jar</type>
+                  <classifier>javadoc</classifier>
+                </artifact>
               </artifacts>
             </configuration>
           </execution>

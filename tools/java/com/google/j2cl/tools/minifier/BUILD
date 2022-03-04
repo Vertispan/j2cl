@@ -1,6 +1,8 @@
 # Description:
 #  A minifier library for J2CL generated source. Applicable in dev servers.
 
+load("@bazel_common//tools/javadoc:javadoc.bzl", "javadoc_library")
+
 package(
     licenses = ["notice"],  # Apache 2.0
 )
@@ -23,5 +25,12 @@ java_library(
     deps = [
         "//third_party:guava",
         "//tools/java/com/google/j2cl/tools/rta:code_removal_info_java_proto",
+    ],
+)
+javadoc_library(
+    name = "minifier-javadoc",
+    srcs = ["J2clMinifier.java"],
+    deps = [
+        ":minifier"
     ],
 )
