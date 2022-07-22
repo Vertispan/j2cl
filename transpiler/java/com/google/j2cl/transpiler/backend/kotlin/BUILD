@@ -22,10 +22,10 @@ kt_jvm_library(
     ],
 )
 
-javadoc_library(
-    name = "kotlin-javadoc",
-    srcs = glob(["*.java"]),
-    deps = [
-        ":kotlin",
-    ],
-)
+#javadoc_library(
+#    name = "kotlin-javadoc",
+#    srcs = glob(["*.javadoc"]),
+#    deps = [
+#        ":kotlin",
+#    ],
+#)
