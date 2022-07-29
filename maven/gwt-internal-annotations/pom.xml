@@ -28,20 +28,19 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>../../bazel-bin/external/org_gwtproject_gwt/user/libgwt-javaemul-internal-annotations.jar</file>
+                  <file>../../bazel-bin/jre/java/libjavaemul_internal_annotations.jar</file>
                   <type>jar</type>
                 </artifact>
                 <artifact>
-                  <file>../../bazel-bin/external/org_gwtproject_gwt/user/libgwt-javaemul-internal-annotations-src.jar</file>
+                  <file>../../bazel-bin/jre/java/libjavaemul_internal_annotations-src.jar</file>
                   <type>jar</type>
                   <classifier>sources</classifier>
                 </artifact>
-                <!-- We're explicitly not supporting this for now, as they are internal, but moving into j2cl soon, will be easier -->
-<!--                <artifact>-->
-<!--                  <file>../../bazel-bin/external/org_gwtproject_gwt/user/gwt-javaemul-internal-annotations-javadoc.jar</file>-->
-<!--                  <type>jar</type>-->
-<!--                  <classifier>javadoc</classifier>-->
-<!--                </artifact>-->
+                <artifact>
+                  <file>../../bazel-bin/jre/java/javaemul_internal_annotations-javadoc.jar</file>
+                  <type>jar</type>
+                  <classifier>javadoc</classifier>
+                </artifact>
               </artifacts>
             </configuration>
           </execution>

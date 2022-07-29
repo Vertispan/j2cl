@@ -15,6 +15,21 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals><goal>single</goal></goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptors>
+            <descriptor>assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.0.0</version>
@@ -35,11 +50,6 @@
                   <file>../../bazel-bin/jre/java/libjre-src.jar</file>
                   <type>jar</type>
                   <classifier>sources</classifier>
-                </artifact>
-                <artifact>
-                  <file>../../bazel-bin/jre/java/jre.js.zip</file>
-                  <type>zip</type>
-                  <classifier>jszip</classifier>
                 </artifact>
                 <!-- Still imported from gwtproject, and pretty sparse docs anyway -->
 <!--                <artifact>-->

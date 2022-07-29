@@ -28,19 +28,19 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/kotlin/libkotlin.jar</file>
+                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/kotlin/kotlin.jar</file>
                                     <type>jar</type>
                                 </artifact>
                                 <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/kotlin/libkotlin-src.jar</file>
+                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/kotlin/kotlin-sources.jar</file>
                                     <type>jar</type>
                                     <classifier>sources</classifier>
                                 </artifact>
-                                <artifact>
-                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/kotlin/kotlin-javadoc.jar</file>
-                                    <type>jar</type>
-                                    <classifier>javadoc</classifier>
-                                </artifact>
+<!--                                <artifact>-->
+<!--                                    <file>../../bazel-bin/transpiler/java/com/google/j2cl/transpiler/backend/kotlin/kotlin-javadoc.jar</file>-->
+<!--                                    <type>jar</type>-->
+<!--                                    <classifier>javadoc</classifier>-->
+<!--                                </artifact>-->
                             </artifacts>
                         </configuration>
                     </execution>
