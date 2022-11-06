@@ -65,7 +65,11 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>0.2.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
