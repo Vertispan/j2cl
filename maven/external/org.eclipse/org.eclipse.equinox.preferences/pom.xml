@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.vertispan.j2cl.external</groupId>
     <artifactId>org.eclipse</artifactId>
-    <version>0.11-SNAPSHOT</version>
+    <version>0.11.0-9336533b6</version>
   </parent>
   <artifactId>org.eclipse.equinox.preferences</artifactId>
   <packaging>pom</packaging>
