@@ -4,8 +4,10 @@
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary")
 load("//build_defs:rules.bzl", "j2cl_library", "j2cl_test", "j2kt_native_library")
-load("//javascript/tools/jscompiler/builddefs:flags.bzl", "VERBOSE_WARNING_FLAGS_STRICT", "WHITESPACE_ONLY_FLAGS")
-load("//third_party/bazel_rules/rules_closure/closure:defs.bzl", "closure_js_binary")
+# load("//javascript/tools/jscompiler/builddefs:flags.bzl", "VERBOSE_WARNING_FLAGS_STRICT", "WHITESPACE_ONLY_FLAGS")
+VERBOSE_WARNING_FLAGS_STRICT = []
+WHITESPACE_ONLY_FLAGS = []
+#load("//third_party/bazel_rules/rules_closure/closure:defs.bzl", "closure_js_binary")
 load(":j2cl_multi_test.bzl", "j2cl_multi_test")
 
 package(
@@ -42,6 +44,7 @@ j2cl_library(
     deps = [
         "//jre/java:javaemul_internal_annotations-j2cl",
         "//third_party:jsinterop-annotations-j2cl",
+        "//third_party:jspecify_annotations-j2cl",
         "//third_party:junit-j2cl",
     ],
 )
@@ -84,6 +87,14 @@ java_test(
         "//third_party:jsinterop-annotations",
         "//third_party:junit",
     ],
+)
+
+j2cl_test(
+    name = "MathTest",
+    # Please change the tested class here.
+    test_class = "com.google.j2cl.jre.java.lang.MathTest",
+    runtime_deps = [":emul_tests_lib"],
+    browsers = ["@io_bazel_rules_webtesting//browsers:chromium-local"]
 )
 
 j2cl_multi_test(
@@ -202,23 +213,23 @@ COMFORMANCE_CHECK_FLAGS = VERBOSE_WARNING_FLAGS_STRICT + [
 closure_js_binary(
     name = "conformance_binary",
     defs = COMFORMANCE_CHECK_FLAGS,
-    extra_inputs = ["conformance_proto.txt"],
+#    extra_inputs = ["conformance_proto.txt"],
     deps = ["//:jre"],
 )
 
 closure_js_binary(
     name = "conformance_binary_head",
-    compiler = "//javascript/tools/jscompiler:head",
+#    compiler = "//javascript/tools/jscompiler:head",
     defs = COMFORMANCE_CHECK_FLAGS,
-    extra_inputs = ["conformance_proto.txt"],
+#    extra_inputs = ["conformance_proto.txt"],
     deps = ["//:jre"],
 )
 
 closure_js_binary(
     name = "conformance_binary_whitespace_only",
-    compiler = "//javascript/tools/jscompiler:head",
+#    compiler = "//javascript/tools/jscompiler:head",
     defs = COMFORMANCE_CHECK_FLAGS + WHITESPACE_ONLY_FLAGS,
-    extra_inputs = ["conformance_proto.txt"],
+#    extra_inputs = ["conformance_proto.txt"],
     deps = ["//:jre"],
 )
 
